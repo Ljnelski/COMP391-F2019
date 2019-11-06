@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public GameObject laser;
     public Transform laserSpawn;
-    public float fireRate = 0.5f;
+    public float fireRate = 1f;
 
     public Vector2 bottomLeftBoundary;
     public Vector2 topRightBoundary;

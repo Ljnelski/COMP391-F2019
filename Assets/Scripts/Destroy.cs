@@ -5,7 +5,7 @@ using UnityEngine;
 public class Destroy : MonoBehaviour
 {
     // Start is called before the first frame update
-    void DestroyThis()
+    public void DestroyThis()
     {
         Destroy(this.gameObject);
     }    
