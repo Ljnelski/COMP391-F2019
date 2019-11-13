@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -13,20 +15,41 @@ public class GameController : MonoBehaviour
     public float startWait;     // How Long until first wave
     public float spawnWait;     // How Long until each spawn
     public float waveWait;      // How long between each wave
+    [Header("Wave Setting")]
+    public Text scoreText;
+    public Text restartText;
+    public Text gameOverText;
 
     //private var
     private int score = 0;
+    private bool gameOver, restart;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameOver = restart = false; // set to false?
         StartCoroutine(SpawnWaves());
+        UpdateScoreText();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (restart)
+        {
+            if (Input.GetKeyDown(KeyCode.R)) // Listen for R to be pushed old
+            {
+                //OLD WAY
+                //Application.LoadLevel("Game");
+
+                //Another way
+                //SceneManager.LoadScene("Game");
+
+                //Best way
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+            }
+        }
     }
 
     // Create a coroutine function
@@ -46,6 +69,32 @@ public class GameController : MonoBehaviour
             }
             hazardCount++;
             yield return new WaitForSeconds(waveWait);
+
+            if (gameOver)
+            {
+                restartText.gameObject.SetActive(true);
+                restart = true;
+
+                break;
+            }
         }
+    }
+
+    public void AddScore(int newScoreValue)
+    {
+        score += newScoreValue; // Adds score to the score
+        UpdateScoreText();
+    }
+
+    void UpdateScoreText()
+    {
+        scoreText.text = "Score: " + score;
+    }
+
+    public void GameOver()
+    {
+        gameOverText.gameObject.SetActive(true);
+        restartText.gameObject.SetActive(true);
+        gameOver = true;
     }
 }
